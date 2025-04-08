@@ -1,0 +1,15 @@
+{{- if .Values.enable_prometheus_exporter }}
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: prometheus-exporter
+  labels:
+    {{- include "pgcat.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "pgcat.selectorLabels" . | nindent 6 }}
+  endpoints:
+  - port: metrics
+    interval: 30s
+{{-end}}
